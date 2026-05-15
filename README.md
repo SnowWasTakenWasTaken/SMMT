@@ -37,3 +37,5 @@ Snow's Multi-Media Tool
 Created by [Snow](https://github.com/SnowWasTakenWasTaken)
 
 Tool built on electron, using [FFmpeg](https://ffmpeg.org/), [YT-DLP](https://github.com/yt-dlp/yt-dlp) & [spotdl](https://github.com/spotdl/spotify-downloader) written in Python, with support for Youtube, Spotify, Soundcloud, Twitch & X (formerly twitter) and [many more](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
+
+yeah I love ASCII art so what
