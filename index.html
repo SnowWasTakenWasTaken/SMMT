@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snow's Multi-Media Tool</title>
+    <!-- Placeholder icon for desktop window previews/browser favicon while developing; replace once final branding is ready. -->
+    <link rel="icon" type="image/x-icon" href="icon.ico" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="theme-dark">
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <!-- Placeholder icon for the app's primary header/logo area; replace this source with your final logo asset. -->
+          <img src="icon.ico" alt="SMMT logo placeholder" class="brand-icon" />
+          <div>
+            <h1>Snow's Multi-Media Tool</h1>
+            <p>
+              <a href="https://github.com/SnowWasTakenWasTaken/"> GitHub Page</a>
+            </p>
+          </div>
+        </div>
+        <div class="controls">
+          <label class="toggle-control" for="dark-mode-toggle">
+            <input type="checkbox" id="dark-mode-toggle" />
+            <span>Dark mode</span>
+          </label>
+          <label class="format-control" for="save-format">
+            <span>Save settings as</span>
+            <select id="save-format">
+              <option value="json">JSON</option>
+              <option value="yaml">YAML</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <nav class="tabs" role="tablist" aria-label="Media services">
+        <!-- Service-specific icons for media tabs are loaded from ICONS/. -->
+        <button class="tab-button active" data-tab-target="youtube" role="tab" aria-controls="panel-youtube" aria-selected="true">
+          <img src="ICONS/YT.ico" alt="" class="tab-icon" />
+          <span>YouTube</span>
+        </button>
+        <button class="tab-button" data-tab-target="spotify" role="tab" aria-controls="panel-spotify" aria-selected="false">
+          <img src="ICONS/SPOTIFY.ico" alt="" class="tab-icon" />
+          <span>Spotify</span>
+        </button>
+        <button class="tab-button" data-tab-target="soundcloud" role="tab" aria-controls="panel-soundcloud" aria-selected="false">
+          <img src="ICONS/SOUNDCLOUD.ico" alt="" class="tab-icon" />
+          <span>SoundCloud</span>
+        </button>
+        <button class="tab-button" data-tab-target="x" role="tab" aria-controls="panel-x" aria-selected="false">
+          <img src="D:\vsc\SMMT\ICONS\X.ico" alt="" class="tab-icon" />
+          <span>X</span>
+        </button>
+        <button class="tab-button" data-tab-target="twitch" role="tab" aria-controls="panel-twitch" aria-selected="false">
+          <img src="ICONS/TWITCH.ico" alt="" class="tab-icon" />
+          <span>Twitch</span>
+        </button>
+        <button class="tab-button" data-tab-target="tiktok" role="tab" aria-controls="panel-tiktok" aria-selected="false">
+          <img src="ICONS/TIKTOK.ico" alt="" class="tab-icon" />
+          <span>TikTok</span>
+        </button>
+        <button class="tab-button" data-tab-target="other" role="tab" aria-controls="panel-other" aria-selected="false">
+          <img src="ICONS/placeholder_icon.ico" alt="" class="tab-icon" />
+          <span>Other</span>
+        </button>
+        <button class="tab-button icon-only settings-tab-button" data-tab-target="settings" role="tab" aria-controls="panel-settings" aria-selected="false" title="Settings">
+          <!-- Placeholder icon for Settings tab; replace icon.ico with a cogwheel icon asset later. -->
+          <img src="icon.ico" alt="Settings placeholder icon" class="tab-icon" />
+          <span class="visually-hidden">Settings</span>
+        </button>
+      </nav>
+
+      <main class="tab-panels">
+        <section id="panel-youtube" class="tab-panel active" data-tab-panel="youtube" role="tabpanel">
+          <h2>YouTube</h2>
+          <p>Paste a YouTube URL to prepare your media workflow.</p>
+          <label class="field">
+            <span>Source URL</span>
+            <input type="url" data-source-url="youtube" placeholder="https://www.youtube.com/watch?v=..." />
+          </label>
+          <div class="download-actions">
+            <label class="field compact-field">
+              <span>Download format</span>
+              <select data-download-format="youtube">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+              </select>
+            </label>
+            <button type="button" class="action-button primary download-button" data-download-service="youtube">Download</button>
+          </div>
+          <span class="status-hint" data-download-status="youtube">Ready to download.</span>
+          <pre class="download-log" data-download-log="youtube"></pre>
+        </section>
+
+        <section id="panel-spotify" class="tab-panel" data-tab-panel="spotify" role="tabpanel">
+          <h2>Spotify</h2>
+          <p>Use track, album, or playlist links and route them into your download pipeline.</p>
+          <label class="field">
+            <span>Source URL</span>
+            <input type="url" data-source-url="spotify" placeholder="https://open.spotify.com/..." />
+          </label>
+          <div class="download-actions">
+            <label class="field compact-field">
+              <span>Download format</span>
+              <select data-download-format="spotify">
+                <option value="mp3">MP3 (spotdl)</option>
+              </select>
+            </label>
+            <button type="button" class="action-button primary download-button" data-download-service="spotify">Download</button>
+          </div>
+          <span class="status-hint" data-download-status="spotify">Ready to download.</span>
+          <pre class="download-log" data-download-log="spotify"></pre>
+        </section>
+
+        <section id="panel-soundcloud" class="tab-panel" data-tab-panel="soundcloud" role="tabpanel">
+          <h2>SoundCloud</h2>
+          <p>Handle artist pages, sets, and single tracks in one place.</p>
+          <label class="field">
+            <span>Source URL</span>
+            <input type="url" data-source-url="soundcloud" placeholder="https://soundcloud.com/..." />
+          </label>
+          <div class="download-actions">
+            <label class="field compact-field">
+              <span>Download format</span>
+              <select data-download-format="soundcloud">
+                <option value="mp3">MP3</option>
+              </select>
+            </label>
+            <button type="button" class="action-button primary download-button" data-download-service="soundcloud">Download</button>
+          </div>
+          <span class="status-hint" data-download-status="soundcloud">Ready to download.</span>
+          <pre class="download-log" data-download-log="soundcloud"></pre>
+        </section>
+
+        <section id="panel-x" class="tab-panel" data-tab-panel="x" role="tabpanel">
+          <h2>X</h2>
+          <p>Queue media links from X posts for extraction and processing.</p>
+          <label class="field">
+            <span>Source URL</span>
+            <input type="url" data-source-url="x" placeholder="https://x.com/.../status/..." />
+          </label>
+          <div class="download-actions">
+            <label class="field compact-field">
+              <span>Download format</span>
+              <select data-download-format="x">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+              </select>
+            </label>
+            <button type="button" class="action-button primary download-button" data-download-service="x">Download</button>
+          </div>
+          <span class="status-hint" data-download-status="x">Ready to download.</span>
+          <pre class="download-log" data-download-log="x"></pre>
+        </section>
+
+        <section id="panel-twitch" class="tab-panel" data-tab-panel="twitch" role="tabpanel">
+          <h2>Twitch</h2>
+          <p>Collect clip and VOD links and prep them for download tasks.</p>
+          <label class="field">
+            <span>Source URL</span>
+            <input type="url" data-source-url="twitch" placeholder="https://www.twitch.tv/..." />
+          </label>
+          <div class="download-actions">
+            <label class="field compact-field">
+              <span>Download format</span>
+              <select data-download-format="twitch">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+              </select>
+            </label>
+            <button type="button" class="action-button primary download-button" data-download-service="twitch">Download</button>
+          </div>
+          <span class="status-hint" data-download-status="twitch">Ready to download.</span>
+          <pre class="download-log" data-download-log="twitch"></pre>
+        </section>
+
+        <section id="panel-tiktok" class="tab-panel" data-tab-panel="tiktok" role="tabpanel">
+          <h2>TikTok</h2>
+          <p>Handle TikTok video links and send them into your download workflow.</p>
+          <label class="field">
+            <span>Source URL</span>
+            <input type="url" data-source-url="tiktok" placeholder="https://www.tiktok.com/@user/video/..." />
+          </label>
+          <div class="download-actions">
+            <label class="field compact-field">
+              <span>Download format</span>
+              <select data-download-format="tiktok">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+              </select>
+            </label>
+            <button type="button" class="action-button primary download-button" data-download-service="tiktok">Download</button>
+          </div>
+          <span class="status-hint" data-download-status="tiktok">Ready to download.</span>
+          <pre class="download-log" data-download-log="tiktok"></pre>
+        </section>
+
+        <section id="panel-other" class="tab-panel" data-tab-panel="other" role="tabpanel">
+          <h2>Other</h2>
+          <p>Use this for any additional supported source not covered by the dedicated tabs.</p>
+          <label class="field">
+            <span>Source URL</span>
+            <input type="url" data-source-url="other" placeholder="https://example.com/media-source" />
+          </label>
+          <div class="download-actions">
+            <label class="field compact-field">
+              <span>Download format</span>
+              <select data-download-format="other">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+              </select>
+            </label>
+            <button type="button" class="action-button primary download-button" data-download-service="other">Download</button>
+          </div>
+          <span class="status-hint" data-download-status="other">Ready to download.</span>
+          <pre class="download-log" data-download-log="other"></pre>
+        </section>
+
+        <section id="panel-settings" class="tab-panel" data-tab-panel="settings" role="tabpanel">
+          <h2>Settings</h2>
+          <p>Choose storage preferences, clear cached background data, and personalize app colors.</p>
+          <div class="settings-grid">
+            <article class="settings-card">
+              <h3>File save location</h3>
+              <p>Select the default folder where media files should be saved.</p>
+              <label class="field">
+                <span>Current folder</span>
+                <div class="inline-field">
+                  <input type="text" id="save-directory" readonly placeholder="No save folder selected" />
+                  <button type="button" id="choose-save-directory" class="action-button">Choose folder</button>
+                </div>
+              </label>
+            </article>
+
+            <article class="settings-card">
+              <h3>Background cache</h3>
+              <p>Delete cached background assets generated by the app.</p>
+              <button type="button" id="clear-background-cache" class="action-button destructive">Delete background cache</button>
+              <span id="cache-status" class="status-hint">Cache status will appear here.</span>
+            </article>
+
+            <article class="settings-card">
+              <h3>Custom background colors</h3>
+              <p>Pick your own gradient colors to customize the app theme.</p>
+              <label class="toggle-control" for="custom-background-enabled">
+                <input type="checkbox" id="custom-background-enabled" />
+                <span>Enable custom background colors</span>
+              </label>
+              <div class="color-grid">
+                <label class="field">
+                  <span>Gradient start color</span>
+                  <input type="color" id="bg-color-start" value="#0c1020" />
+                </label>
+                <label class="field">
+                  <span>Gradient end color</span>
+                  <input type="color" id="bg-color-end" value="#121b2f" />
+                </label>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="status-bar">
+        <span id="save-status">Initializing preferences…</span>
+      </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

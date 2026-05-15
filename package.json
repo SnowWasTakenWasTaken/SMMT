@@ -1,0 +1,65 @@
+{
+  "name": "smmt",
+  "version": "0.1.0",
+  "description": "Snow's Multi-Media Tool desktop GUI",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:backend": "powershell -ExecutionPolicy Bypass -File \"./build_exe.ps1\"",
+    "build:backend:mac": "bash ./build_macos.sh",
+    "build:win": "npm run build:backend && electron-builder --win nsis portable --publish never",
+    "build:mac": "npm run build:backend:mac && electron-builder --mac dmg zip --publish never"
+  },
+  "build": {
+    "appId": "com.snow.smmt",
+    "productName": "SMMT",
+    "asar": true,
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!build/**",
+      "!youtube_downloader.spec",
+      "!installer.nsi",
+      "!build_exe.ps1",
+      "!build_linux.sh",
+      "!build_macos.sh",
+      "!version_info.txt"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "icon.ico",
+      "extraResources": [
+        {
+          "from": "dist/youtube_downloader.exe",
+          "to": "backend/youtube_downloader.exe"
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "identity": null,
+      "extraResources": [
+        {
+          "from": "dist/youtube_downloader-macos",
+          "to": "backend/youtube_downloader-macos"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1"
+  },
+  "devDependencies": {
+    "electron": "^42.0.1",
+    "electron-builder": "^26.8.1"
+  }
+}
