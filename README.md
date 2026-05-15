@@ -1,5 +1,5 @@
 Snow's Multi-Media Tool                                                                                         
-   d888888o.   b.             8     ,o888888o.  `8.`888b                 ,8' d888888o.   
+```text   d888888o.   b.             8     ,o888888o.  `8.`888b                 ,8' d888888o.   
  .`8888:' `88. 888o.          8  . 8888     `88. `8.`888b               ,8'.`8888:' `88. 
  8.`8888.   Y8 Y88888o.       8 ,8 8888       `8b `8.`888b             ,8' 8.`8888.   Y8 
  `8.`8888.     .`Y888888o.    8 88 8888        `8b `8.`888b     .b    ,8'  `8.`8888.     
@@ -31,7 +31,7 @@ Snow's Multi-Media Tool
       8 8888   `8 8888       ,8P  `8 8888       ,8P  8 8888         
       8 8888    ` 8888     ,88'    ` 8888     ,88'   8 8888         
       8 8888       `8888888P'         `8888888P'     8 888888888888 
-
+```
 Created by [Snow](https://github.com/SnowWasTakenWasTaken)
 
 Tool built on electron, using FFpmeg, YT-DLP & spotdl written in Python, with support for Youtube, Spotify, Soundcloud, Twitch & X (formerly twitter) and [many more](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
