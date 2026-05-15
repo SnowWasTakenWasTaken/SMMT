@@ -2,11 +2,17 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_PATH="$SCRIPT_DIR/youtube_downloader.py"
+APP_PATH=""
 DIST_DIR="$SCRIPT_DIR/dist"
+for candidate in "$SCRIPT_DIR/SMMT.py" "$SCRIPT_DIR/youtube_downloader.py"; do
+  if [[ -f "$candidate" ]]; then
+    APP_PATH="$candidate"
+    break
+  fi
+done
 
-if [[ ! -f "$APP_PATH" ]]; then
-  echo "Could not find youtube_downloader.py at $APP_PATH" >&2
+if [[ -z "$APP_PATH" ]]; then
+  echo "Could not find backend entrypoint. Expected SMMT.py or youtube_downloader.py in $SCRIPT_DIR" >&2
   exit 1
 fi
 
