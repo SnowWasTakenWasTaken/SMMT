@@ -1,33 +1,49 @@
 name: build-macos
+
 on:
   workflow_dispatch:
   push:
     tags:
       - "v*"
+
 jobs:
   build:
     runs-on: macos-latest
+
     env:
       CSC_IDENTITY_AUTO_DISCOVERY: "false"
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install ffmpeg
         run: brew install ffmpeg
+
       - name: Install npm dependencies
         run: npm ci
+
+      - name: Build backend
+        run: npm run build:backend:mac
+
+      - name: List dist files
+        run: ls -lah dist
+
       - name: Build macOS release artifacts
-        run: npm run build:mac
+        run: npx electron-builder --mac dmg zip --publish never
+
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -35,4 +51,3 @@ jobs:
           path: |
             dist/*.dmg
             dist/*.zip
-            dist/youtube_downloader-macos
