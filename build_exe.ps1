@@ -1,7 +1,12 @@
 $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$AppPath = Join-Path $ScriptDir "youtube_downloader.py"
+$AppPath = $null
+$AppCandidates = @(
+    (Join-Path $ScriptDir "SMMT.py"),
+    (Join-Path $ScriptDir "youtube_downloader.py")
+)
+$AppPath = $AppCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 $IconPath = Join-Path $ScriptDir "icon.ico"
 $VersionFile = Join-Path $ScriptDir "version_info.txt"
 $FfmpegRoot = $env:FFMPEG_ROOT
@@ -10,7 +15,7 @@ if ([string]::IsNullOrWhiteSpace($FfmpegRoot)) {
 }
 
 if (!(Test-Path $AppPath)) {
-    throw "Could not find youtube_downloader.py at $AppPath"
+    throw "Could not find backend entrypoint. Expected SMMT.py or youtube_downloader.py under $ScriptDir"
 }
 if (!(Test-Path $IconPath)) {
     throw "Could not find icon.ico at $IconPath"
