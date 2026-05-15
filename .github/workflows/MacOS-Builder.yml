@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-
     env:
       CSC_IDENTITY_AUTO_DISCOVERY: "false"
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
@@ -35,6 +34,21 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+      - name: Normalize shell script line endings
+        run: perl -pi -e 's/\r$//' build_macos.sh
+
+      - name: Ensure root icon exists
+        run: |
+          if [ ! -f icon.ico ]; then
+            if [ -f ICONS/placeholder_icon.ico ]; then
+              echo "icon.ico missing at repo root; using ICONS/placeholder_icon.ico for CI build"
+              cp ICONS/placeholder_icon.ico icon.ico
+            else
+              echo "Missing both icon.ico and ICONS/placeholder_icon.ico"
+              exit 1
+            fi
+          fi
+
       - name: Build backend
         run: npm run build:backend:mac
 
@@ -42,6 +56,8 @@ jobs:
         run: ls -lah dist
 
       - name: Build macOS release artifacts
+        env:
+          DEBUG: electron-builder
         run: npx electron-builder --mac dmg zip --publish never
 
       - name: Upload macOS artifacts
@@ -51,3 +67,4 @@ jobs:
           path: |
             dist/*.dmg
             dist/*.zip
+            dist/youtube_downloader-macos
