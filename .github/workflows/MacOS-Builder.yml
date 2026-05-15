@@ -9,22 +9,23 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    timeout-minutes: 45
     env:
       CSC_IDENTITY_AUTO_DISCOVERY: "false"
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@a5ac7e51b41094c7f3e64ab47a41e02a5c460c32  # v4.1.6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178fbb8726095e3c4ad383ca8  # v4.0.2
         with:
           node-version: 22
           cache: npm
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0110993eac0c0305e34  # v5.1.1
         with:
           python-version: "3.12"
 
@@ -33,12 +34,21 @@ jobs:
 
       - name: Install npm dependencies
         run: npm ci
-        
+
       - name: Fix app-builder permissions
-        run: chmod +x node_modules/app-builder-bin/mac/app-builder_arm64
+        run: |
+          if [ -f node_modules/app-builder-bin/mac/app-builder_arm64 ]; then
+            chmod +x node_modules/app-builder-bin/mac/app-builder_arm64
+          fi
 
       - name: Normalize shell script line endings
-        run: perl -pi -e 's/\r$//' build_macos.sh
+        run: |
+          if [ -f build_macos.sh ]; then
+            perl -pi -e 's/\r$//' build_macos.sh
+            chmod +x build_macos.sh
+          else
+            echo "Warning: build_macos.sh not found"
+          fi
 
       - name: Ensure root icon exists
         run: |
@@ -52,22 +62,62 @@ jobs:
             fi
           fi
 
+      - name: Verify build environment
+        run: |
+          echo "=== Build Environment ==="
+          echo "Node version: $(node --version)"
+          echo "npm version: $(npm --version)"
+          echo "Python version: $(python --version)"
+          echo "ffmpeg version:"
+          ffmpeg -version | head -n 1 || echo "ffmpeg not found"
+          echo "macOS version: $(sw_vers -productVersion)"
+          echo "================================"
+
       - name: Build backend
         run: npm run build:backend:mac
 
       - name: List dist files
-        run: ls -lah dist
+        run: |
+          if [ -d dist ]; then
+            echo "Contents of dist directory:"
+            ls -lah dist
+          else
+            echo "Error: dist directory not found"
+            exit 1
+          fi
 
       - name: Build macOS release artifacts
         env:
           DEBUG: electron-builder
         run: npx electron-builder --mac dmg zip --publish never
 
+      - name: Verify artifacts exist
+        run: |
+          echo "Checking for expected artifacts..."
+          if [ ! -f dist/*.dmg ] && [ ! -f dist/*.zip ]; then
+            echo "Error: No .dmg or .zip artifacts found"
+            exit 1
+          fi
+          echo "Build artifacts verified successfully"
+
       - name: Upload macOS artifacts
-        uses: actions/upload-artifact@v4
+        if: success()
+        uses: actions/upload-artifact@65462800fd760afa4d1d4a4e763280da534aac6e  # v4.3.3
         with:
           name: smmt-macos
           path: |
             dist/*.dmg
             dist/*.zip
             dist/youtube_downloader-macos
+          retention-days: 30
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: Build Summary
+        if: always()
+        run: |
+          echo "=== Build Summary ==="
+          echo "Status: ${{ job.status }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "================================"
