@@ -268,9 +268,17 @@ function runDownloadTask(payload = {}) {
     ];
   } else {
     const launcher = resolvePythonLauncher();
-    const packagedScriptPath = path.join(process.resourcesPath, 'backend', 'youtube_downloader.py');
-    const devScriptPath = path.join(__dirname, 'youtube_downloader.py');
-    const scriptPath = fs.existsSync(packagedScriptPath) ? packagedScriptPath : devScriptPath;
+    const scriptCandidates = [
+      path.join(process.resourcesPath, 'backend', 'SMMT.py'),
+      path.join(process.resourcesPath, 'backend', 'youtube_downloader.py'),
+      path.join(__dirname, 'SMMT.py'),
+      path.join(__dirname, 'youtube_downloader.py'),
+    ];
+    const scriptPath = scriptCandidates.find((candidatePath) => fs.existsSync(candidatePath));
+
+    if (!scriptPath) {
+      throw new Error('Downloader script not found. Expected SMMT.py or youtube_downloader.py.');
+    }
 
     command = launcher.command;
     commandCwd = path.dirname(scriptPath);
