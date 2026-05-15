@@ -42,12 +42,12 @@ jobs:
 
       - name: Ensure root icon exists
         run: |
-          if [ ! -f icon.ico ]; then
-            if [ -f ICONS/placeholder_icon.ico ]; then
-              echo "icon.ico missing at repo root; using ICONS/placeholder_icon.ico for CI build"
-              cp ICONS/placeholder_icon.ico icon.ico
+          if [ ! -f icon.icns ]; then
+            if [ -f ICONS/placeholder_icon.icns ]; then
+              echo "icon.icns missing at repo root; using ICONS/placeholder_icon.icns for CI build"
+              cp ICONS/placeholder_icon.icns icon.icns
             else
-              echo "Missing both icon.ico and ICONS/placeholder_icon.ico"
+              echo "Missing both icon.icns and ICONS/placeholder_icon.icns"
               exit 1
             fi
           fi
